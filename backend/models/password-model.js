@@ -12,3 +12,16 @@
 
 // module.exports = passwordSchema;
 
+const mongoose = require('mongoose');
+const validatorPackage = require('../middleware/email-verification-middleware');
+
+const passwordSchema = mongoose.Schema({
+    password:{
+        type: String, 
+        required: true, 
+        match:/(?=.*\d)(?=.*[a-z])(?=.*[A-Z])/, 
+        minlength:10
+      }
+})
+
+module.exports = passwordSchema;
