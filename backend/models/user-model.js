@@ -7,10 +7,11 @@ const userSchema = mongoose.Schema({
     required: [true, 'Adresse email obligatoire'], validate: {
     validator: validator.isValidEmail, 
     message: 'Adresse mail incorrecte',
-  }}, //validate https://mongoosejs.com/docs/validation.html#custom-validators pour mettre la vérification ici
+  }}, 
   password: { type: String, required: true },
 });
 
 userSchema.plugin(uniqueValidator);
 
 module.exports = mongoose.model("User", userSchema);
+//validate https://mongoosejs.com/docs/validation.html#custom-validators pour mettre la vérification ici

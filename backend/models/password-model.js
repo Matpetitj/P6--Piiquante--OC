@@ -14,12 +14,15 @@
 
 const mongoose = require('mongoose');
 const validatorPackage = require('../middleware/email-verification-middleware');
+const passwordValidator = require('../services/validator');
 
 const passwordSchema = mongoose.Schema({
     password:{
         type: String, 
         required: true, 
-        match:/(?=.*\d)(?=.*[a-z])(?=.*[A-Z])/, 
+        // match:/(?=.*\d)(?=.*[a-z])(?=.*[A-Z])/, 
+        validator: passwordValidator.isValidPassword,
+        message: 'Mot de passe incorrect',
         minlength:10
       }
 })
