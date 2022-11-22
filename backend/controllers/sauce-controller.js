@@ -55,7 +55,7 @@ exports.deleteSauce = (req, res, next) => {
   .catch(error => res.status(500).json({ error }))
 };
 
-exports.likeDislikeSauce = (req, res, next) => {
+exports.likeAndDislikeSauce = (req, res, next) => {
   let like = req.body.like
   let userId = req.body.userId
   let sauceId = req.params.id
