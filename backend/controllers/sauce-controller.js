@@ -1,4 +1,5 @@
 const Sauce = require('../models/sauce-model');
+const sauceLikeRules = require('../services/like-dislike-process');
 const fs = require('fs');
 
 exports.getAllSauces = (req, res, next) => {
