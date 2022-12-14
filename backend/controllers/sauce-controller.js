@@ -72,40 +72,52 @@ exports.likeAndDislikeSauce = async (req, res, next) => {
     return res.status(404).json({ message: 'Sauce inexistante'})
   }
   
+  try {
   switch (like) {
     case 1 :
         //vérifier si l'utilisateur n'a pas déjà aimé la sauce
-        Sauce.updateOne({ _id: sauceId }, { $push: { usersLiked: userId }, $inc: { likes: +1 }})
-          .then(() => res.status(200).json({ message: `J'aime` }))
-          .catch((error) => res.status(500).json({ error }))
+        // Sauce.updateOne({ _id: sauceId }, { $push: { usersLiked: userId }, $inc: { likes: +1 }})
+        //   .then(() => res.status(200).json({ message: `J'aime` }))
+        //   .catch((error) => res.status(500).json({ error }))
+        await sauceLikeRules.likeSauce(userId, sauce);
+        res.json({ message: `J'aime` });
+
     break;
 
     case 0 :
-        Sauce.findOne({ _id: sauceId })
-           .then((sauce) => {
-            if (sauce.usersLiked.includes(userId)) { 
-              Sauce.updateOne({ _id: sauceId }, { $pull: { usersLiked: userId }, $inc: { likes: -1 }})
-                .then(() => res.status(200).json({ message: `Neutre` }))
-                .catch((error) => res.status(500).json({ error }))
-            }
-            if (sauce.usersDisliked.includes(userId)) { 
-              Sauce.updateOne({ _id: sauceId }, { $pull: { usersDisliked: userId }, $inc: { dislikes: -1 }})
-                .then(() => res.status(200).json({ message: `Neutre` }))
-                .catch((error) => res.status(500).json({ error }))
-            }
-          })
-          .catch((error) => res.status(404).json({ error }))
+        // Sauce.findOne({ _id: sauceId })
+        //    .then((sauce) => {
+        //     if (sauce.usersLiked.includes(userId)) { 
+        //       Sauce.updateOne({ _id: sauceId }, { $pull: { usersLiked: userId }, $inc: { likes: -1 }})
+        //         .then(() => res.status(200).json({ message: `Neutre` }))
+        //         .catch((error) => res.status(500).json({ error }))
+        //     }
+        //     if (sauce.usersDisliked.includes(userId)) { 
+        //       Sauce.updateOne({ _id: sauceId }, { $pull: { usersDisliked: userId }, $inc: { dislikes: -1 }})
+        //         .then(() => res.status(200).json({ message: `Neutre` }))
+        //         .catch((error) => res.status(500).json({ error }))
+        //     }
+        //   })
+        //   .catch((error) => res.status(404).json({ error }))
+        sauceLikeRules.alreadyStatusOnSauce(userId, sauce);
+        res.status(200).json({ message: `Neutre` });
       break;
 
     case -1 :
       //vérifier si l'utilisateur n'a pas déjà dislike la sauce
-        Sauce.updateOne({ _id: sauceId }, { $push: { usersDisliked: userId }, $inc: { dislikes: +1 }})
-          .then(() => { res.status(200).json({ message: `Je n'aime pas` }) })
-          .catch((error) => res.status(500).json({ error }))
+        // Sauce.updateOne({ _id: sauceId }, { $push: { usersDisliked: userId }, $inc: { dislikes: +1 }})
+        //   .then(() => { res.status(200).json({ message: `Je n'aime pas` }) })
+        //   .catch((error) => res.status(500).json({ error }))
+        sauceLikeRules.dislikeSauce(userId, sauce);
+        res.status(200).json({ message: `Je n'aime pas` });
     break;
       
       default:
         return res.status(400).json({})
+  }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error })
   }
 };
 

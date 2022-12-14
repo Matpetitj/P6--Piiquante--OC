@@ -1,30 +1,20 @@
+const Sauce = require('../models/sauce-model');
+
 module.exports = {
-    likeSauce: function() {
-        Sauce.updateOne({ _id: sauceId }, { $push: { usersLiked: userId }, $inc: { likes: +1 }})
-          .then(() => res.status(200).json({ message: `J'aime` }))
-          .catch((error) => res.status(500).json({ error }))
+    likeSauce: async function(userId, sauce) {
+        await Sauce.updateOne({ _id: sauce._id }, { $push: { usersLiked: userId }, $inc: { likes: +1 }})
     },
 
-    alreadyStatusOnSauce () {
-        Sauce.findOne({ _id: sauceId })
-           .then((sauce) => {
+    alreadyStatusOnSauce: async function(userId, sauce) {
             if (sauce.usersLiked.includes(userId)) { 
-              Sauce.updateOne({ _id: sauceId }, { $pull: { usersLiked: userId }, $inc: { likes: -1 }})
-                .then(() => res.status(200).json({ message: `Neutre` }))
-                .catch((error) => res.status(500).json({ error }))
+              await Sauce.updateOne({ _id: sauce._id }, { $pull: { usersLiked: userId }, $inc: { likes: -1 }})
             }
             if (sauce.usersDisliked.includes(userId)) { 
-              Sauce.updateOne({ _id: sauceId }, { $pull: { usersDisliked: userId }, $inc: { dislikes: -1 }})
-                .then(() => res.status(200).json({ message: `Neutre` }))
-                .catch((error) => res.status(500).json({ error }))
+              await Sauce.updateOne({ _id: sauce._id }, { $pull: { usersDisliked: userId }, $inc: { dislikes: -1 }})
             }
-          })
-          .catch((error) => res.status(404).json({ error }))
     },
 
-    dislikeSauce: function () {
-        Sauce.updateOne({ _id: sauceId }, { $push: { usersDisliked: userId }, $inc: { dislikes: +1 }})
-          .then(() => { res.status(200).json({ message: `Je n'aime pas` }) })
-          .catch((error) => res.status(500).json({ error }))
+    dislikeSauce: async function (userId, sauce) {
+        await Sauce.updateOne({ _id: sauce._id }, { $push: { usersDisliked: userId }, $inc: { dislikes: +1 }})
     }
 }
