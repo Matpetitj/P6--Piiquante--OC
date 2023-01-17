@@ -75,39 +75,17 @@ exports.likeAndDislikeSauce = async (req, res, next) => {
   try {
   switch (like) {
     case 1 :
-        //vérifier si l'utilisateur n'a pas déjà aimé la sauce
-        // Sauce.updateOne({ _id: sauceId }, { $push: { usersLiked: userId }, $inc: { likes: +1 }})
-        //   .then(() => res.status(200).json({ message: `J'aime` }))
-        //   .catch((error) => res.status(500).json({ error }))
         await sauceLikeRules.likeSauce(userId, sauce);
         res.json({ message: `J'aime` });
 
     break;
 
     case 0 :
-        // Sauce.findOne({ _id: sauceId })
-        //    .then((sauce) => {
-        //     if (sauce.usersLiked.includes(userId)) { 
-        //       Sauce.updateOne({ _id: sauceId }, { $pull: { usersLiked: userId }, $inc: { likes: -1 }})
-        //         .then(() => res.status(200).json({ message: `Neutre` }))
-        //         .catch((error) => res.status(500).json({ error }))
-        //     }
-        //     if (sauce.usersDisliked.includes(userId)) { 
-        //       Sauce.updateOne({ _id: sauceId }, { $pull: { usersDisliked: userId }, $inc: { dislikes: -1 }})
-        //         .then(() => res.status(200).json({ message: `Neutre` }))
-        //         .catch((error) => res.status(500).json({ error }))
-        //     }
-        //   })
-        //   .catch((error) => res.status(404).json({ error }))
         sauceLikeRules.alreadyStatusOnSauce(userId, sauce);
         res.status(200).json({ message: `Neutre` });
       break;
 
     case -1 :
-      //vérifier si l'utilisateur n'a pas déjà dislike la sauce
-        // Sauce.updateOne({ _id: sauceId }, { $push: { usersDisliked: userId }, $inc: { dislikes: +1 }})
-        //   .then(() => { res.status(200).json({ message: `Je n'aime pas` }) })
-        //   .catch((error) => res.status(500).json({ error }))
         sauceLikeRules.dislikeSauce(userId, sauce);
         res.status(200).json({ message: `Je n'aime pas` });
     break;
@@ -120,6 +98,3 @@ exports.likeAndDislikeSauce = async (req, res, next) => {
     res.status(500).json({ error })
   }
 };
-
-// créer des sous routines pour le like, dislike et neutre et faire appel à ces fonctions dans la fonction likeAndDislikeSauce
-// Sauce.findById(id).then(sauce => {});

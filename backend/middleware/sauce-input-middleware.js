@@ -1,5 +1,5 @@
 module.exports = (req, res, next) => {
-    // il s'agit de la route post
+    // route post
     if (JSON.parse(req.body.sauce !== undefined)) {
       const sauce = JSON.parse(req.body.sauce);
       let { name, manufacturer, description, mainPepper } = sauce;
@@ -10,7 +10,6 @@ module.exports = (req, res, next) => {
       }
       toTrim(name, manufacturer, description, mainPepper);
   
-      // Vérifie du nombre de caractères après avoir trim()
       const minThreeCharacters = (currentValue) => currentValue.length >= 3;
       if (trimedTab.every(minThreeCharacters)) {
         next();
@@ -18,7 +17,7 @@ module.exports = (req, res, next) => {
         throw new Error("Tous les champs doivent faire au moins 3 caractères");
       }
     } else {
-      // il s'agit de la route put
+      // route put
       const sauce = req.body;
       let { name, manufacturer, description, mainPepper } = sauce;
       let trimedTab = [];
@@ -28,7 +27,6 @@ module.exports = (req, res, next) => {
       }
       toTrim(name, manufacturer, description, mainPepper);
   
-      // Vérifie du nombre de caractères après avoir trim()
       const minThreeCharacters = (currentValue) => currentValue.length >= 3;
       if (trimedTab.every(minThreeCharacters)) {
         next();

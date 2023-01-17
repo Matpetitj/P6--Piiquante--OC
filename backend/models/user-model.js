@@ -14,6 +14,3 @@ const userSchema = mongoose.Schema({
 userSchema.plugin(uniqueValidator);
 
 module.exports = mongoose.model("User", userSchema);
-//validate https://mongoosejs.com/docs/validation.html#custom-validators pour mettre la vérification ici
-
-//rajouter les sauces like/dis par l'utilisateur et le mettre à jour

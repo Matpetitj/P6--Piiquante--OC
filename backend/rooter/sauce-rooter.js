@@ -14,5 +14,3 @@ router.delete("/:id", auth, sauceCtrl.deleteSauce)
 router.post("/:id/like", auth, sauceCtrl.likeAndDislikeSauce)
 
 module.exports = router;
-
-//bloquer les like/dislike multiples

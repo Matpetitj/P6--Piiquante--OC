@@ -43,13 +43,3 @@ exports.login = (req, res, next) => {
       })
       .catch(error => res.status(500).json({ error }));
   };
-
-  //pourquoi bcrypt et pas un autre algorithme
-  //il faudrait chiffrer la DB avec la programme M10 minimum voir mongodb
-  //utiliser mongodb compass 
-  //expliquer mes choix, mes choix de technologies
-  //mongoose vs mongodb
-  //node vs express
-  //pertinence chiffrer mail
-  //me faire un glossaire des modules (multer etc) et des termes middleware, rooter, etc
-  //supprimer ces commentaires
